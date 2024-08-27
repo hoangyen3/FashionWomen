@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DoAnLTW.Models.Customer>
+
+@{
+    ViewBag.Title = "CustomerService";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Trang Hiển Thị -->
+<div class="content-wrapper">
+    <!-- Danh Sách bảng -->
+    <div class="card">
+        <h5 class="card-header">Danh Sách Khách Hàng Tiềm Năng</h5>
+        <div class="table-responsive text-nowrap">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Mã Khách Hàng</th>
+                        <th>Tên Khách Hàng</th>
+                        <th>Số Điện Thoại</th>
+                        <th>Loại Khách Hàng</th>
+                        <th>Đã Mua</th>
+                        <th>Xem KH</th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var customer in Model)
+                    {
+                        <tr>
+                            <td>@customer.CustomerId</td> <!-- Sử dụng thuộc tính CustomerId của mô hình khách hàng -->
+                            <td>@customer.FirstName @customer.LastName</td> <!-- Kết hợp FirstName và LastName của mô hình khách hàng -->
+                            <td>@customer.PhoneNumber</td> <!-- Sử dụng thuộc tính PhoneNumber của mô hình khách hàng -->
+                            <td>@customer.CustomerType</td> <!-- Sử dụng thuộc tính CustomerType của mô hình khách hàng -->
+                            <td>
+                                @if (customer.HasPurchased)
+                                {
+                                    <span class="badge bg-label-success me-1">Đã Mua</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-label-warning me-1">Chưa Mua</span>
+                                }
+                            </td>
+                            <td>
+                                @Html.ActionLink("Chi Tiết", "CustomerDetail", new { id = customer.CustomerId }, new { @class = "btn btn-info" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Danh Sách bảng -->
+
+    <div class="content-backdrop fade"></div>
+</div>
+<!-- Trang Hiển Thị -->

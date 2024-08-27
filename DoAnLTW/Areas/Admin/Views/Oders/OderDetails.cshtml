@@ -1,0 +1,67 @@
+﻿@model DoAnLTW.Models.Order
+
+@{
+    ViewBag.Title = "Chi Tiết Đơn Hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="content-wrapper">
+    @if (Model == null)
+    {
+        <div class="alert alert-danger" role="alert">
+            Không tìm thấy thông tin chi tiết đơn hàng.
+        </div>
+    }
+    else
+    {
+        <div class="card">
+            <h5 class="card-header">Chi Tiết Đơn Hàng</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tên Khách Hàng</th>
+                            <th>Ngày Lên Đơn</th>
+                            <th>Giá Trị Đơn Hàng</th>
+                            <th>Trạng Thái</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        <tr>
+                            <td>@Model.Customer.FirstName @Model.Customer.LastName</td>
+                            <td>@Model.OrderDate?.ToString("dd/MM/yyyy")</td>
+                            <td>@Model.TotalAmount.ToString("C")</td>
+                            <td>
+                                <span class="badge bg-label-@(Model.Status == "Pending" ? "warning" : "success") me-1">
+                                    @Model.Status
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h5 class="card-header">Chi Tiết Sản Phẩm</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Số Lượng</th>
+                            <th>Giá Đơn Vị</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        @foreach (var item in Model.OrderDetails)
+                        {
+                            <tr>
+                                <td>@item.Product.ProductName</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.UnitPrice.ToString("C")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <a href="@Url.Action("Index", "Orders")" class="btn btn-info">Quay lại</a>
+        </div>
+        <div class="content-backdrop fade"></div>
+    }

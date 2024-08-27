@@ -1,0 +1,172 @@
+﻿@model DoAnLTW.Models.CartIndexViewModel
+
+<!-- Body Content -->
+<div id="page-content">
+    <!-- Page Title -->
+    <div class="page section-header text-center">
+        <div class="page-title">
+            <div class="wrapper">
+                <h1 class="page-width">Your Cart</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End Page Title -->
+    <!-- Hiển thị thông báo nếu có -->
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Message"]
+        </div>
+    }
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-8 col-lg-8 main-col">
+                <form action="#" method="post" class="cart style2">
+                    <table>
+                        <thead class="cart__row cart__header">
+                            <tr>
+                                <th colspan="2" class="text-center">Product</th>
+                                <th class="text-center">Price</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-right">Total</th>
+                                <th class="action">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cart-items">
+                            @foreach (var item in Model.Cart.Items)
+                            {
+                                <tr class="cart__row border-bottom line1 cart-flex border-top" data-product-id="@item.Product.ProductId">
+                                    <td class="cart__image-wrapper cart-flex-item">
+                                        <a href="#"><img class="cart__image" src="@item.Product.ImageUrl" alt="@item.Product.ProductName"></a>
+                                    </td>
+                                    <td class="cart__meta small--text-left cart-flex-item">
+                                        <div class="list-view-item__title">
+                                            <a href="#">@item.Product.ProductName</a>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price-wrapper cart-flex-item">
+                                        <span class="money" data-price="@item.Product.Price">@item.Product.Price.ToString("C")</span>
+                                    </td>
+                                    <td class="cart__update-wrapper cart-flex-item text-right">
+                                        <div class="cart__qty text-center">
+                                            <div class="qtyField">
+                                                <a class="qtyBtn minus" href="javascript:void(0);" data-action="minus"><i class="icon icon-minus"></i></a>
+                                                <input class="cart__qty-input qty" type="text" name="updates[]" data-product-id="@item.Product.ProductId" value="@item.Quantity" pattern="[0-9]*">
+                                                <a class="qtyBtn plus" href="javascript:void(0);" data-action="plus"><i class="icon icon-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right small--hide cart-price">
+                                        <div><span class="money total-price">@item.TotalPrice.ToString("C")</span></div>
+                                    </td>
+                                    <td class="text-center small--hide">
+                                        <a href="@Url.Action("RemoveFromCart", "Cart", new { productId = item.Product.ProductId, returnUrl = Model.ReturnUrl })" class="btn btn--secondary cart__remove" title="Remove item"><i class="icon icon anm anm-times-l"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-left">
+                                    <a href="@Url.Action("Index","Product")" class="btn--link cart-continue"><i class="icon icon-arrow-circle-left"></i> Continue Shopping</a>
+                                </td>
+                                <td colspan="3" class="text-right">
+                                    <button type="submit" name="update" class="btn--link cart-update"><i class="fa fa-refresh"></i> Update</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div class="currencymsg">We process all orders in USD. While the content of your cart is currently displayed in USD, the checkout will use USD at the most current exchange rate.</div>
+                    <hr>
+                </form>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer">
+                <div class="cart-note">
+                    <div class="solid-border">
+                        <h5><label for="CartSpecialInstructions" class="cart-note__label small--text-center">Add a note to your order</label></h5>
+                        <textarea name="note" id="CartSpecialInstructions" class="cart-note__input"></textarea>
+                    </div>
+                </div>
+                <div class="solid-border">
+                    <div class="row">
+                        <span class="col-12 col-sm-6 cart__subtotal-title"><strong>Subtotal</strong></span>
+                        <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right">
+                            <span class="money" id="cart-subtotal">@Model.Cart.ComputeTotalValue().ToString("C")</span>
+                        </span>
+                    </div>
+                    <div class="cart__shipping">Shipping & taxes calculated at checkout</div>
+                    <p class="cart_tearm">
+                        <label>
+                            <input type="checkbox" name="tearm" id="cartTearm" class="checkbox" value="tearm" required="">
+                            I agree with the terms and conditions
+                        </label>
+                    </p>
+                    @Html.ActionLink("Checkout", "Index", "CheckOut", null, new { @class = "btn btn--small-wide checkout", @id = "cartCheckout", @disabled = "disabled" })
+                    <div class="paymnet-img"><img src="~/Content/images/payment-img.jpg" alt="Payment"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Body Content -->
+<!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- JavaScript for dynamic updates -->
+
+
+
+<script>
+
+
+    
+
+    $(document).ready(function () {
+        // Update total price on quantity change
+        $('.qtyBtn').on('click', function () {
+            var $row = $(this).closest('tr');
+            var $quantityInput = $row.find('.cart__qty-input');
+            var $priceSpan = $row.find('.cart__price-wrapper .money');
+            var $totalSpan = $row.find('.total-price');
+            var price = parseFloat($priceSpan.data('price'));
+            var quantity = parseInt($quantityInput.val());
+
+            // Update total price
+            var totalPrice = price * quantity;
+            $totalSpan.text(totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }));
+
+            // Update subtotal
+            var subtotal = 0;
+            $('.total-price').each(function () {
+                subtotal += parseFloat($(this).text().replace(/[^0-9.-]+/g, ""));
+            });
+            $('#cart-subtotal').text(subtotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' }));
+        });
+    });
+</script>
+<!-- JavaScript để ẩn thông báo sau vài giây -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('.alert-success').fadeOut('slow');
+        }, 3000); // Thời gian hiển thị thông báo là 3000ms = 3 giây
+    });
+</script>
+
+
+
+<script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const termsCheckbox = document.getElementById("cartTerms");
+        const checkoutButton = document.getElementById("cartCheckout");
+
+        termsCheckbox.addEventListener("change", function () {
+            checkoutButton.disabled = !termsCheckbox.checked;
+        });
+    });
+</script>
+</script>
+

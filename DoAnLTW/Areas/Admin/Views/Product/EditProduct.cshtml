@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "EditProduct";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@model IEnumerable<DoAnLTW.Models.Product>
+
+@if (Model != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tên Sản Phẩm</th>
+                <th>Giá</th>
+                <th>Hãng Sản Xuất</th>
+                <th>Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.ProductName</td>
+                    <td>@product.Price</td>
+                    <td>@product.Manufacturer</td>
+                    <td>
+                        <a href="@Url.Action("EditProduct", "Product", new { id = product.ProductId })" class="btn btn-sm btn-primary">Sửa</a>
+                        <a href="@Url.Action("DeleteProduct", "Product", new { id = product.ProductId })" class="btn btn-sm btn-danger">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No products available.</p>
+}
+

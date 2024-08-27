@@ -1,0 +1,198 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@model IEnumerable<DoAnLTW.Models.Product>
+<!--Body Content-->
+<div id="page-content">
+    <!--Home slider-->
+    <div class="slideshow slideshow-wrapper pb-4">
+        <div class="home-slideshow">
+            <div class="slide">
+                <div class="blur-up lazyload">
+                    <img class="blur-up lazyload desktop-show"   src="~/Content//images/slideshow-banners/home3-banner.jpg" alt="There is Beauty in Simplycity" title="There is Beauty in Simplycity" />
+                    <img class="blur-up lazyload mobile-show"  src="~/Content//images/slideshow-banners/home3-banner-mobile.jpg" alt="There is Beauty in Simplycity" title="There is Beauty in Simplycity" />
+                    <div class="slideshow__text-wrap slideshow__overlay classic middle">
+                        <div class="slideshow__text-content left">
+                            <div class="container">
+                                <div class="wrap-caption left">
+                                    <h2 class="h1 mega-title slideshow__title">There is Beauty in Simplycity</h2>
+                                    <span class="mega-subtitle slideshow__subtitle">Save up to 50% off this weekend only</span>
+                                    <a href="@Url.Action("Index", "Product")" class="btn">Shop now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Home slider-->
+    <!--Small Banners-->
+    <<div class="section imgBanners pt-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 pl-0">
+                <div class="imgBnrOuter">
+                    <div class="inner btmright">
+                        <img  src="~/Content//images/home3-small-banner1.jpg" alt="" class="blur-up lazyload" />
+                        <div class="ttl">from $70<h5>Shoes Collection</h5></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 pr-0">
+                <div class="imgBnrOuter">
+                    <div class="inner btmright">
+                        <img  src="~/Content//images/home3-small-banner2.jpg" alt="" class="blur-up lazyload" />
+                        <div class="ttl">from $50<h5>Trendy Bags</h5></div>
+                    </div>
+                </div>
+                <div class="imgBnrOuter mt-4">
+                    <div class="inner btmright">
+                        <img  src="~/Content//images/home3-small-banner3.jpg" alt="" class="blur-up lazyload" />
+                        <div class="ttl">from $20<h5>ACCESSORIES</h5></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!--End Small Banners-->
+    <!--Collection Tab slider-->
+    <div class="tab-slider-product section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="section-header text-center">
+                        <h2 class="h2 heading-font">Top Sellers</h2>
+                    </div>
+                    <div class="tabs-listing">
+                        <ul class="tabs clearfix">
+                            <li class="active" rel="tab1">Women</li>
+
+                        </ul>
+                        <div class="tab_container">
+                            <div id="tab1" class="tab_content grid-products style3">
+                                <div class="productSlider">
+                                    <!--Sản phẩm-->
+
+                                    @foreach (var item in Model)
+                                    {
+
+                                        <div class="col-12 item">
+                                            <div class="product-name">
+                                                <a href="@Url.Action("Details", "Product", new { id = item.ProductId })">@item.ProductName</a>
+                                            </div>
+                                            <div class="product-image">
+                                                <a href="@Url.Action("Details", "Product", new { id = item.ProductId })">
+                                                    <img class="" src="@Url.Content(item.ImageUrl)" alt="image" title="product">
+                                                    <div class="product-labels rounded">
+                                                        <span class="lbl on-sale">Sale</span>
+                                                        <span class="lbl pr-label1">new</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="button-set button-style2">
+                                                <form action="@Url.Action("AddToCart", "Cart", new { returnUrl = Request.Url.PathAndQuery })" method="post">
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                                    <input type="hidden" name="quantity" value="1" min="1" class="form-control" />
+                                                    <button class="btn cartIcon btn-addto-cart" type="submit" tabindex="0"><i class="icon anm anm-bag-l"></i></button>
+                                                </form>
+
+                                                <a href="javascript:void(0)" title="Quick View" class="btn-style2 quick-view-popup quick-view" data-toggle="modal" data-target="#content_quickview">
+                                                    <i class="icon anm anm-search-plus-r"></i>
+                                                </a>
+                                                <div class="wishlist-btn btn-style2">
+                                                    <a class="wishlist add-to-wishlist" href="wishlist.html">
+                                                        <i class="icon anm anm-heart-l"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="compare-btn btn-style2">
+                                                    <a class="compare add-to-compare" href="compare.html" title="Add to Compare">
+                                                        <i class="icon anm anm-random-r"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="product-details text-center">
+                                                <div class="product-price">
+                                                    <span class="price">@item.Price.ToString("C")</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Collection Tab slider-->
+    <!--Feature Content-->
+    <div class="section feature-content">
+        <div class="container">
+            <div class="row">
+                <div class="feature-row">
+                    <div class="col-12 col-sm-12 col-md-6 feature-row__item">
+                        <img src="~/Content/images/fast-fashion_600x.jpg" alt="Fast Fashion Only available at BElle" title="Fast Fashion Only available at BElle" />
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 feature-row__item feature-row__text feature-row__text--left text-left">
+                        <div class="row-text">
+                            <h2 class="h2">Fast Fashion Only available at BElle</h2>
+                            <div class="rte-setting featured-row__subtext">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                <p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+                            </div>
+                            <a href="@Url.Action("Index", "Product")" class="btn">Shop now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Feature Content-->
+    <!--Instagram Section-->
+    <div class="section instagram-feed-section">
+        <div class="section-header text-center">
+            <h2 class="h2 heading-font">Follow us On Instagram</h2>
+        </div>
+        <!--Instagram ID-->
+        <div id="instafeed" class="imlow_resolution"></div>
+        <!--End Instagram ID-->
+    </div>
+    <!--End Instagram Section-->
+
+</div>
+<!--End Body Content-->
+<!-- JavaScript để ẩn thông báo sau vài giây -->
+<!-- JavaScript để ẩn thông báo sau vài giây -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('form').submit(function (event) {
+            event.preventDefault();
+
+            var form = $(this);
+            var formData = form.serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: formData,
+                success: function (data) {
+                    // Xử lý kết quả thành công
+                    alert('Sản phẩm đã được thêm vào giỏ hàng!');
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.');
+                }
+            });
+        });
+    });
+
+</script>

@@ -1,0 +1,14 @@
+﻿@model DoAnLTW.Models.Order
+
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Đặt Hàng Thành Công</h2>
+    <p>Cảm ơn bạn đã đặt hàng. Đơn hàng của bạn đã được xử lý thành công.</p>
+    <p>Mã Đơn Hàng: @Model.OrderId</p>
+    <p>Tổng Số Tiền: @Model.TotalAmount.ToString("C")</p> <!-- Hiển thị tổng số tiền với định dạng tiền tệ -->
+    <p>Chúng tôi sẽ thông báo cho bạn qua email khi đơn hàng của bạn được xử lý.</p>
+</div>

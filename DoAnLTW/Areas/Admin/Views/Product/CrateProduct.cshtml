@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "CrateProduct";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Content wrapper -->
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nav-align-top">
+                    <ul class="nav nav-pills flex-column flex-md-row mb-6">
+                        <li class="nav-item">
+                            @Html.ActionLink("Thêm sản phẩm", "AddProduct", "Product", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Chi tiết Sản Phẩm", "ChiTietSanPham", "Product", null, new { @class = "nav-link" })
+                        </li>
+                    </ul>
+                </div>
+                <div class="card mb-6">
+                    <!-- Account -->
+                    <div class="card-body">
+                        <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
+                            <img src="~/Content/admin/assets/img/avatars/1.png"
+                                 alt="user-avatar"
+                                 class="d-block w-px-100 h-px-100 rounded"
+                                 id="uploadedAvatar" />
+                            <div class="button-wrapper">
+                                <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
+                                    <span class="d-none d-sm-block">Thêm Hình Ảnh</span>
+                                    <i class="bx bx-upload d-block d-sm-none"></i>
+                                    <input type="file"
+                                           id="upload"
+                                           class="account-file-input"
+                                           hidden
+                                           accept="image/png, image/jpeg" />
+                                </label>
+                                <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                                    <i class="bx bx-reset d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Xóa Ảnh</span>
+                                </button>
+
+                                <div>Tên Ảnh</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body pt-4">
+                        @using (Html.BeginForm("AddProduct", "Product", FormMethod.Post, new { id = "formAccountSettings" }))
+                        {
+                            <div class="row g-6">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">Tên Sản Phẩm</label>
+                                    <input class="form-control"
+                                           type="text"
+                                           id="firstName"
+                                           name="firstName"
+                                           autofocus />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">Giá Sản Phẩm</label>
+                                    <input class="form-control" type="text" name="lastName" id="lastName" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Hãng Sản Xuất</label>
+                                    <input class="form-control"
+                                           type="text"
+                                           id="email"
+                                           name="email" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="organization" class="form-label">Mô Tả</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="organization"
+                                           name="organization" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="phoneNumber">Giá Nhập</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="text"
+                                               id="phoneNumber"
+                                               name="phoneNumber"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Giá Bán</label>
+                                    <input type="text" class="form-control" id="address" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="state" class="form-label">Số Lượng</label>
+                                    <input class="form-control" type="text" id="state" name="state" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="language" class="form-label">Loại Sản Phẩm</label>
+                                    <select id="language" class="select2 form-select">
+                                        <option value="">Chọn</option>
+                                        <option value="en">Loại 1</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="currency" class="form-label">Trạng Thái</label>
+                                    <select id="currency" class="select2 form-select">
+                                        <option value="">Đã Nhập</option>
+                                        <option value="usd">Hết Hàng</option>
+                                        <option value="euro">Hoạt Động</option>
+                                        <option value="pound">Ngừng Hoạt Động</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <form id="productForm" method="POST" action="@Url.Action("ProductNew", "Product")" data-ajax="true" data-ajax-method="POST" data-ajax-update="#productList" data-ajax-success="onProductAdded">
+                                <!-- form fields for product data -->
+                                <div class="mt-6">
+                                    <button type="submit" class="btn btn-primary me-3">Thêm sản phẩm</button>
+                                    <button type="reset" class="btn btn-outline-secondary">Hủy</button>
+                                </div>
+                            </form>
+                        }
+                    </div>
+                    <!-- /Account -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Other HTML content -->
+
+    }
+
+    <!-- / Content -->
+
+    <div class="content-backdrop fade"></div>
+</div>
+<!-- Content wrapper -->
